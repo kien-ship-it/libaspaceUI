@@ -34,6 +34,9 @@ export default {
       backgroundImage: {
         'gradient-purple': 'linear-gradient(-47deg, rgba(203, 186, 255, 1) 0%, rgba(200, 159, 243, 1) 54%, rgba(114, 72, 241, 1) 100%)',
       },
+      borderColor: {
+        'border': '#E5E7EB',
+      },
     },
   },
   plugins: [],
