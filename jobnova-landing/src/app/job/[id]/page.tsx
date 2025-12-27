@@ -1,4 +1,4 @@
-import { Sidebar } from "@/components/Sidebar";
+import { AppShell } from "@/components/AppShell";
 import { JobDetailContent } from "@/components/JobDetailContent";
 import { JobDetailAIPanel } from "@/components/JobDetailAIPanel";
 
@@ -270,18 +270,8 @@ export default async function JobDetailPage({ params }: PageProps) {
   const job = jobsData[id] || jobsData["1"];
 
   return (
-    <div className="min-h-screen bg-surface-page">
-      <Sidebar />
-      
-      <main className="ml-[var(--spacing-sidebar-width)] p-[var(--spacing-page-y)] pr-[20px]">
-        <div className="flex gap-[20px]">
-          <JobDetailContent job={job} />
-          
-          <div className="w-[290px] shrink-0">
-            <JobDetailAIPanel matchScores={job.matchScores} />
-          </div>
-        </div>
-      </main>
-    </div>
+    <AppShell aiPanel={<JobDetailAIPanel matchScores={job.matchScores} />}>
+      <JobDetailContent job={job} />
+    </AppShell>
   );
 }

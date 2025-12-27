@@ -6,7 +6,7 @@ import {
   WifiIcon,
 } from "@/components/icons";
 import { LikeButton } from "@/components/LikeButton";
-import { Sidebar } from "@/components/Sidebar";
+import { AppShell } from "@/components/AppShell";
 import { AIPanelCard } from "@/components/AIPanelCard";
 
 interface JobCardProps {
@@ -41,13 +41,13 @@ function MatchCircle({ percent, color }: { percent: number; color: "perfect" | "
     <div className="relative flex items-center justify-center" style={{ width: 108, height: 108 }}>
       <svg className="absolute" width="108" height="108" viewBox="0 0 108 108">
         {/* Background track - full circle */}
-        <circle 
-          cx="54" 
-          cy="54" 
-          r={radius} 
-          fill="none" 
-          stroke={trackStroke} 
-          strokeWidth="8" 
+        <circle
+          cx="54"
+          cy="54"
+          r={radius}
+          fill="none"
+          stroke={trackStroke}
+          strokeWidth="8"
         />
         {/* Progress arc - starts from top (12 o'clock), goes clockwise */}
         <circle
@@ -188,7 +188,7 @@ function JobCard({
             <span className="text-content-primary leading-[22px] tracking-[-0.28px]">{applicants} applicants</span>
           </div>
           <div className="flex items-center gap-[11px]">
-            <Link 
+            <Link
               href={`/job/${id}`}
               className="px-[19px] py-[9px] border border-[rgba(177,174,174,0.5)] rounded-[43px] text-[17px] font-medium text-content-primary hover:bg-surface-page transition-colors leading-[22px] tracking-[-0.35px]"
             >
@@ -217,12 +217,11 @@ function Header() {
         {tabs.map((tab, index) => (
           <div key={tab.label} className="flex items-center">
             <button
-              className={`px-[20px] py-[6px] rounded-[22px] text-[16px] font-medium transition-colors ${
-                tab.active
-                  ? "border-[1.9px] border-[#a68bfa] text-[#19212c]"
-                  : "text-[rgba(27,35,47,0.6)] hover:text-[#19212c]"
-              }`}
-              style={{ 
+              className={`px-[20px] py-[6px] rounded-[22px] text-[16px] font-medium transition-colors ${tab.active
+                ? "border-[1.9px] border-[#a68bfa] text-[#19212c]"
+                : "text-[rgba(27,35,47,0.6)] hover:text-[#19212c]"
+                }`}
+              style={{
                 fontFamily: 'Inter, sans-serif',
                 fontWeight: 500,
                 fontSize: '16px',
@@ -323,27 +322,15 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-surface-page">
-      <Sidebar />
-      
-      <main className="ml-[var(--spacing-sidebar-width)] p-[var(--spacing-page-y)] pr-[20px]">
-        <div className="flex gap-[20px]">
-          <div className="flex-1 max-w-[893px]">
-            <Header />
-            <JobReferenceBar />
-            
-            <div className="flex flex-col gap-[16px]">
-              {jobs.map((job, index) => (
-                <JobCard key={index} {...job} />
-              ))}
-            </div>
-          </div>
-          
-          <div className="w-[290px] shrink-0">
-            <AIPanelCard />
-          </div>
-        </div>
-      </main>
-    </div>
+    <AppShell aiPanel={<AIPanelCard />}>
+      <Header />
+      <JobReferenceBar />
+
+      <div className="flex flex-col gap-[16px]">
+        {jobs.map((job, index) => (
+          <JobCard key={index} {...job} />
+        ))}
+      </div>
+    </AppShell>
   );
 }

@@ -14,16 +14,16 @@
   --gray-950: #19212D;
   --black: #000000;
   --white: #FFFFFF;
-  
+
   --purple-400: #A68BFA;
   --purple-500: #734AE2;
   --purple-gradient-start: #CBBAFF;
   --purple-gradient-mid: #C89FF3;
   --purple-gradient-end: #7248F1;
-  
+
   --green-400: #B9FD33;
   --yellow-400: #FFD035;
-  
+
   /* Spacing Primitives */
   --space-0: 0px;
   --space-1: 4px;
@@ -42,23 +42,23 @@
   --space-16: 64px;
   --space-20: 80px;
   --space-24: 96px;
-  
+
   /* Typography Primitives */
   --font-inter: var(--font-inter-var);
-  
+
   --text-xs: 12px;
   --text-sm: 14px;
   --text-base: 16px;
   --text-lg: 18px;
   --text-xl: 20px;
   --text-2xl: 24px;
-  
+
   --leading-tight: 1.25;
   --leading-normal: 1.4;
   --leading-relaxed: 1.57;
-  
+
   --tracking-tight: -0.02em;
-  
+
   /* Border Radius Primitives */
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -66,7 +66,7 @@
   --radius-xl: 31px;
   --radius-2xl: 33px;
   --radius-full: 9999px;
-  
+
   /* Shadow Primitives */
   --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1);
@@ -86,23 +86,23 @@
   --color-surface-dark: var(--gray-950);
   --color-surface-success: var(--green-400);
   --color-surface-warning: var(--yellow-400);
-  
+
   /* Text Semantic Tokens */
   --color-content-primary: var(--gray-900);
   --color-content-secondary: var(--gray-950);
   --color-content-muted: var(--gray-400);
   --color-content-inverse: var(--white);
   --color-content-black: var(--black);
-  
+
   /* Border Semantic Tokens */
   --color-border-default: var(--gray-200);
   --color-border-strong: var(--gray-400);
-  
+
   /* Interactive Semantic Tokens */
   --color-interactive-primary: var(--purple-500);
   --color-interactive-primary-hover: var(--purple-400);
   --color-interactive-secondary: var(--green-400);
-  
+
   /* Component Spacing Tokens */
   --spacing-page-x: var(--space-5);
   --spacing-page-y: var(--space-10);
@@ -113,14 +113,14 @@
   --spacing-button-y: var(--space-3);
   --spacing-sidebar-width: 219px;
   --spacing-sidebar-padding: var(--space-3);
-  
+
   /* Typography Semantic Tokens */
   --text-body-size: var(--text-sm);
   --text-body-line-height: var(--leading-relaxed);
   --text-heading-size: var(--text-base);
   --text-heading-line-height: var(--leading-tight);
   --text-label-size: var(--text-base);
-  
+
   /* Border Radius Semantic Tokens */
   --radius-card: var(--radius-md);
   --radius-button: var(--radius-xl);
@@ -138,23 +138,23 @@
   --color-surface-dark: var(--color-surface-dark);
   --color-surface-success: var(--color-surface-success);
   --color-surface-warning: var(--color-surface-warning);
-  
+
   --color-content-primary: var(--color-content-primary);
   --color-content-secondary: var(--color-content-secondary);
   --color-content-muted: var(--color-content-muted);
   --color-content-inverse: var(--color-content-inverse);
   --color-content-black: var(--color-content-black);
-  
+
   --color-border-default: var(--color-border-default);
   --color-border-strong: var(--color-border-strong);
-  
+
   --color-interactive-primary: var(--color-interactive-primary);
   --color-interactive-primary-hover: var(--color-interactive-primary-hover);
   --color-interactive-secondary: var(--color-interactive-secondary);
-  
+
   /* Font Family */
   --font-sans: var(--font-inter);
-  
+
   /* Spacing */
   --spacing-page-x: var(--spacing-page-x);
   --spacing-page-y: var(--spacing-page-y);
@@ -165,7 +165,7 @@
   --spacing-button-y: var(--spacing-button-y);
   --spacing-sidebar-width: var(--spacing-sidebar-width);
   --spacing-sidebar-padding: var(--spacing-sidebar-padding);
-  
+
   /* Border Radius */
   --radius-card: var(--radius-card);
   --radius-button: var(--radius-button);
@@ -178,4 +178,35 @@ body {
   color: var(--color-content-primary);
   font-family: var(--font-sans), system-ui, sans-serif;
   letter-spacing: var(--tracking-tight);
+}
+
+/* ============================================
+   DRAWER ANIMATIONS
+   ============================================ */
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 0.3s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
 }
