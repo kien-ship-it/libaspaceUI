@@ -1,22 +1,16 @@
 import Image from "next/image";
+import Link from "next/link";
 import {
-  BriefcaseIcon,
-  AIMockIcon,
-  ResumeIcon,
-  ProfileIcon,
-  SettingsIcon,
-  SubscriptionIcon,
-  CreditsIcon,
   RefreshIcon,
-  FilterIcon,
-  LinkIcon,
-  HeartIcon,
   LocationIcon,
   WifiIcon,
-  AISparkleIcon,
 } from "@/components/icons";
+import { LikeButton } from "@/components/LikeButton";
+import { Sidebar } from "@/components/Sidebar";
+import { AIPanelCard } from "@/components/AIPanelCard";
 
 interface JobCardProps {
+  id: string;
   title: string;
   company: string;
   location: string;
@@ -34,8 +28,8 @@ interface JobCardProps {
 
 function MatchCircle({ percent, color }: { percent: number; color: "perfect" | "good" | "fair" }) {
   const colorMap = {
-    perfect: { stroke: "#22C55E", trackStroke: "rgba(34, 197, 94, 0.15)" },
-    good: { stroke: "#22C55E", trackStroke: "rgba(34, 197, 94, 0.15)" },
+    perfect: { stroke: "#B9FD33", trackStroke: "rgba(34, 197, 94, 0.15)" },
+    good: { stroke: "#B9FD33", trackStroke: "rgba(34, 197, 94, 0.15)" },
     fair: { stroke: "#FFD035", trackStroke: "rgba(255, 208, 53, 0.15)" },
   };
   const { stroke, trackStroke } = colorMap[color];
@@ -65,7 +59,7 @@ function MatchCircle({ percent, color }: { percent: number; color: "perfect" | "
           strokeWidth="8"
           strokeLinecap="round"
           strokeDasharray={`${progressLength} ${circumference}`}
-          transform="rotate(-90 54 54)"
+          transform="rotate(45 54 54)"
           style={{ transition: "stroke-dasharray 0.3s ease" }}
         />
       </svg>
@@ -82,6 +76,7 @@ function MatchCircle({ percent, color }: { percent: number; color: "perfect" | "
 }
 
 function JobCard({
+  id,
   title,
   company,
   location,
@@ -109,7 +104,33 @@ function JobCard({
               {title}
             </h3>
             <div className="flex items-center gap-[6px]">
-              <div className="w-[22px] h-[22px] rounded-full bg-gray-200 overflow-hidden" />
+              {company === "Backd Business Funding" ? (
+                <Image
+                  src="/images/Backd Business Funding.svg"
+                  alt={company}
+                  width={22}
+                  height={22}
+                  className="rounded-full"
+                />
+              ) : company === "Cursor AI" ? (
+                <Image
+                  src="/images/Cursor AI.svg"
+                  alt={company}
+                  width={22}
+                  height={22}
+                  className="rounded-full"
+                />
+              ) : company === "Simons Foundation" ? (
+                <Image
+                  src="/images/Simons Foundation.svg"
+                  alt={company}
+                  width={22}
+                  height={22}
+                  className="rounded-full"
+                />
+              ) : (
+                <div className="w-[22px] h-[22px] rounded-full bg-gray-200 overflow-hidden" />
+              )}
               <span className="text-[16px] font-medium text-content-muted leading-[20px] tracking-[-0.32px]">
                 {company}
               </span>
@@ -127,12 +148,22 @@ function JobCard({
             </div>
           </div>
           <div className="flex items-center gap-[15px]">
-            <button className="text-content-muted hover:text-content-primary transition-colors">
-              <LinkIcon className="w-[19px] h-[19px]" />
+            <button className="inline-flex items-center justify-center leading-none text-content-muted hover:text-content-primary transition-colors">
+              <span className="inline-flex items-center justify-center w-[19px] h-[19px]">
+                <Image
+                  src="/images/link.svg"
+                  alt="Link"
+                  width={19}
+                  height={19}
+                  className="w-full h-full object-contain"
+                />
+              </span>
             </button>
-            <button className={`transition-colors ${isLiked ? "text-interactive-primary" : "text-content-muted hover:text-content-primary"}`}>
-              <HeartIcon className="w-[19px] h-[19px]" filled={isLiked} />
-            </button>
+            <LikeButton
+              defaultLiked={isLiked}
+              className="transition-colors"
+              iconClassName="w-[19px] h-[19px]"
+            />
           </div>
         </div>
         {/* Tags row with border styling per Figma */}
@@ -157,9 +188,12 @@ function JobCard({
             <span className="text-content-primary leading-[22px] tracking-[-0.28px]">{applicants} applicants</span>
           </div>
           <div className="flex items-center gap-[11px]">
-            <button className="px-[19px] py-[9px] border border-[rgba(177,174,174,0.5)] rounded-[43px] text-[17px] font-medium text-content-primary hover:bg-surface-page transition-colors leading-[22px] tracking-[-0.35px]">
+            <Link 
+              href={`/job/${id}`}
+              className="px-[19px] py-[9px] border border-[rgba(177,174,174,0.5)] rounded-[43px] text-[17px] font-medium text-content-primary hover:bg-surface-page transition-colors leading-[22px] tracking-[-0.35px]"
+            >
               Apply
-            </button>
+            </Link>
             <button className="px-[19px] py-[9px] bg-surface-success rounded-[43px] text-[17px] font-medium text-content-primary hover:opacity-90 transition-opacity leading-[22px] tracking-[-0.35px]">
               Mock Interview
             </button>
@@ -167,103 +201,6 @@ function JobCard({
         </div>
       </div>
     </div>
-  );
-}
-
-function Sidebar() {
-  const topNavItems = [
-    { icon: BriefcaseIcon, label: "Jobs", active: true },
-    { icon: AIMockIcon, label: "AI Mock Interview", active: false },
-    { icon: ResumeIcon, label: "Resume", active: false },
-  ];
-
-  const middleNavItems = [
-    { icon: ProfileIcon, label: "Profile", active: false },
-    { icon: SettingsIcon, label: "Setting", active: false },
-  ];
-
-  const bottomNavItems = [
-    { icon: SubscriptionIcon, label: "Subscription", active: false },
-    { icon: CreditsIcon, label: "Extra Credits", active: false },
-  ];
-
-  const NavButton = ({ item }: { item: { icon: React.ComponentType<{ className?: string }>; label: string; active: boolean } }) => (
-    <button
-      className={`flex items-center gap-[9px] px-[29px] py-[11px] rounded-[var(--radius-button)] w-full transition-colors text-left ${
-        item.active
-          ? "bg-surface-accent text-content-inverse"
-          : "bg-transparent text-[#1D2633] hover:bg-surface-page"
-      }`}
-    >
-      <item.icon className="w-[22px] h-[22px]" />
-      <span className="text-[16px] font-medium leading-[20px] tracking-[-0.32px]">
-        {item.label}
-      </span>
-    </button>
-  );
-
-  return (
-    <aside className="w-[var(--spacing-sidebar-width)] bg-surface-primary h-screen fixed left-0 top-0 flex flex-col">
-      {/* Logo */}
-      <div className="px-[12px] py-[10px]">
-        <Image
-          src="/images/jobnova-logo.png"
-          alt="JobNova"
-          width={140}
-          height={40}
-          className="object-contain"
-          priority
-        />
-      </div>
-
-      <nav className="flex-1 px-[12px] py-[10px]">
-        {/* Top nav items */}
-        <div className="flex flex-col gap-[10px]">
-          {topNavItems.map((item) => (
-            <NavButton key={item.label} item={item} />
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div className="my-[10px] mx-[15px] h-[1px] bg-[#DFDFDF]" />
-
-        {/* Middle nav items */}
-        <div className="flex flex-col gap-[10px]">
-          {middleNavItems.map((item) => (
-            <NavButton key={item.label} item={item} />
-          ))}
-        </div>
-
-        {/* Divider */}
-        <div className="my-[10px] mx-[15px] h-[1px] bg-[#DFDFDF]" />
-
-        {/* Bottom nav items */}
-        <div className="flex flex-col gap-[10px]">
-          {bottomNavItems.map((item) => (
-            <NavButton key={item.label} item={item} />
-          ))}
-        </div>
-      </nav>
-
-      <div className="p-[20px]">
-        <div
-          className="rounded-[var(--radius-lg)] p-[20px] relative overflow-hidden"
-          style={{
-            background: "linear-gradient(-47deg, #CBBAFF 0%, #C89FF3 54%, #7248F1 100%)",
-          }}
-        >
-          <h4 className="text-[18px] font-medium text-content-inverse leading-[24px] tracking-[-0.36px] mb-[12px]">
-            Upgrade Your Plan
-          </h4>
-          <p className="text-[14px] font-normal text-content-inverse leading-[22px] tracking-[-0.28px] mb-[16px] opacity-90">
-            Boost your success rate now!
-          </p>
-          <button className="bg-surface-primary text-content-secondary px-[20px] py-[10px] rounded-[var(--radius-2xl)] text-[16px] font-medium leading-[20px] tracking-[-0.32px]">
-            Subscription
-          </button>
-        </div>
-      </div>
-    </aside>
   );
 }
 
@@ -275,24 +212,39 @@ function Header() {
   ];
 
   return (
-    <header className="flex items-center gap-[40px] mb-[20px]">
-      {tabs.map((tab) => (
-        <button
-          key={tab.label}
-          className={`px-[20px] py-[8px] rounded-[var(--radius-button)] text-[14px] font-medium transition-colors ${
-            tab.active
-              ? "bg-surface-primary text-content-primary border border-border-default"
-              : "bg-transparent text-content-muted hover:text-content-primary"
-          }`}
-        >
-          {tab.label}
-          {tab.count !== undefined && (
-            <span className="ml-[6px] w-[20px] h-[20px] inline-flex items-center justify-center bg-surface-success rounded-full text-[12px] text-content-secondary">
-              {tab.count}
-            </span>
-          )}
-        </button>
-      ))}
+    <header className="flex items-center justify-between mb-[20px] bg-white py-[8px] px-[20px] rounded-[8px]">
+      <div className="flex items-center">
+        {tabs.map((tab, index) => (
+          <div key={tab.label} className="flex items-center">
+            <button
+              className={`px-[20px] py-[6px] rounded-[22px] text-[16px] font-medium transition-colors ${
+                tab.active
+                  ? "border-[1.9px] border-[#a68bfa] text-[#19212c]"
+                  : "text-[rgba(27,35,47,0.6)] hover:text-[#19212c]"
+              }`}
+              style={{ 
+                fontFamily: 'Inter, sans-serif',
+                fontWeight: 500,
+                fontSize: '16px',
+                lineHeight: '20.3px',
+                letterSpacing: '-0.32px'
+              }}
+            >
+              {tab.label}
+              {tab.count !== undefined && (
+                <span className="ml-[10px] inline-flex items-center justify-center bg-[#b7fd33] rounded-[17px] text-[#171e29] text-[14px] font-medium leading-[normal] tracking-[0.28px] min-w-[18px] h-[18px] px-[6px] py-0">
+                  {tab.count}
+                </span>
+              )}
+            </button>
+            {index < tabs.length - 1 && (
+              <div className="w-[24px] h-[40px] flex items-center justify-center">
+                <div className="w-[1px] h-[20px] bg-[#E5E7EB]" />
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
     </header>
   );
 }
@@ -300,76 +252,20 @@ function Header() {
 function JobReferenceBar() {
   return (
     <div className="flex items-center gap-[12px] mb-[16px]">
-      <button className="flex-1 flex items-center justify-center gap-[8px] py-[12px] bg-surface-success rounded-[var(--radius-button)] text-content-secondary">
+      <button className="flex-1 flex items-center justify-center gap-[8px] py-[12px] rounded-[31px] border border-[#E8E8E8] bg-[#A68BFA] text-white">
         <RefreshIcon className="w-[16px] h-[16px]" />
         <span className="text-[14px] font-medium">Change Job Reference</span>
       </button>
       <button className="flex items-center gap-[8px] px-[16px] py-[12px] bg-surface-primary rounded-[var(--radius-button)] border border-border-default">
-        <FilterIcon className="w-[16px] h-[16px] text-content-primary" />
+        <Image
+          src="/images/top-matched.svg"
+          alt="Top matched"
+          width={16}
+          height={16}
+          className="w-[16px] h-[16px]"
+        />
         <span className="text-[16px] font-medium text-content-primary">Top matched</span>
       </button>
-    </div>
-  );
-}
-
-function AIPanelCard() {
-  return (
-    <div className="bg-surface-primary rounded-[var(--radius-card)] p-[30px] relative overflow-hidden">
-      <div className="absolute top-[-38px] left-[113px] w-[395px] h-[395px] rounded-full bg-gradient-to-br from-purple-100 to-purple-50 opacity-50" />
-      
-      <div className="relative z-10">
-        <AISparkleIcon className="w-[30px] h-[30px] text-interactive-primary mb-[16px]" />
-        
-        <h3 className="text-[16px] font-semibold text-content-secondary leading-[25px] tracking-[-0.32px] mb-[13px]">
-          Ace Your Interviews with AI-Powered Mock Sessions!
-        </h3>
-        
-        <p className="text-[14px] font-normal text-content-black leading-[20px] tracking-[-0.28px] mb-[24px]">
-          Struggling with interview nerves or unsure how to prepare? Let our cutting-edge AI mock interviews help you shine!
-        </p>
-
-        <div className="mb-[24px]">
-          <h4 className="text-[16px] font-semibold text-content-secondary leading-[25px] tracking-[-0.32px] mb-[16px]">
-            Why Choose Our AI Mock Interviews?
-          </h4>
-          
-          <div className="flex flex-col gap-[12px]">
-            <div>
-              <p className="text-[14px] font-semibold text-content-black leading-[20px] tracking-[-0.28px] mb-[4px]">
-                Job-Specific Simulations:
-              </p>
-              <p className="text-[14px] font-normal text-content-black leading-[20px] tracking-[-0.28px] pl-[21px]">
-                • Practice with questions tailored to your target role, ensuring relevance and preparation.
-              </p>
-            </div>
-            
-            <div>
-              <p className="text-[14px] font-semibold text-content-black leading-[20px] tracking-[-0.28px] mb-[4px]">
-                Actionable Feedback
-              </p>
-              <p className="text-[14px] font-normal text-content-black leading-[20px] tracking-[-0.28px] pl-[21px]">
-                • Get detailed analysis of your responses and practical, step-by-step improvement suggestions.
-              </p>
-            </div>
-            
-            <div>
-              <p className="text-[14px] font-semibold text-content-black leading-[20px] tracking-[-0.28px] mb-[4px]">
-                Boost Success Rates:
-              </p>
-              <p className="text-[14px] font-normal text-content-black leading-[20px] tracking-[-0.28px] pl-[21px]">
-                • Perfect your interview skills and increase your chances of landing the job you want.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <button className="w-full flex items-center justify-center gap-[10px] py-[12px] bg-surface-dark rounded-[var(--radius-button)] text-content-inverse">
-          <AISparkleIcon className="w-[16px] h-[16px]" />
-          <span className="text-[16px] font-medium leading-[20px] tracking-[-0.32px]">
-            Mock Interview
-          </span>
-        </button>
-      </div>
     </div>
   );
 }
@@ -377,6 +273,7 @@ function AIPanelCard() {
 export default function Home() {
   const jobs: JobCardProps[] = [
     {
+      id: "2",
       title: "Web Application Developer",
       company: "Backd Business Funding",
       location: "Austin, Texas Metropolitan Area",
@@ -392,6 +289,7 @@ export default function Home() {
       isLiked: false,
     },
     {
+      id: "3",
       title: "Software Engineer, Network Infrastructure",
       company: "Cursor AI",
       location: "Sunnyvale, CA",
@@ -404,9 +302,10 @@ export default function Home() {
       matchColor: "perfect",
       postedTime: "2 hours ago",
       applicants: 25,
-      isLiked: true,
+      isLiked: false,
     },
     {
+      id: "4",
       title: "Full-Stack Software Engineer (Web Developer)",
       company: "Simons Foundation",
       location: "New York, NY",
